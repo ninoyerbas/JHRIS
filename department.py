@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from database import Database
+from constants import STATUS_ACTIVE
 
 
 class Department:
@@ -34,7 +35,7 @@ class Department:
             print(f"Department '{name}' added successfully with ID: {dept_id}")
             return dept_id
         else:
-            print("Failed to add department.")
+            print("Failed to add department. Name may already exist.")
             return None
             
     def get_department_by_id(self, dept_id):
@@ -107,8 +108,8 @@ class Department:
             True if successful, False otherwise
         """
         # Check if department has employees
-        check_query = "SELECT COUNT(*) FROM employees WHERE department_id = ? AND status = 'active'"
-        result = self.db.execute_query(check_query, (dept_id,))
+        check_query = f"SELECT COUNT(*) FROM employees WHERE department_id = ? AND status = ?"
+        result = self.db.execute_query(check_query, (dept_id, STATUS_ACTIVE))
         
         if result and result[0][0] > 0:
             print(f"Cannot delete department. It has {result[0][0]} active employee(s).")

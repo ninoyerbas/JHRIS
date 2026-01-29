@@ -5,10 +5,17 @@ from tabulate import tabulate
 from database import Database
 from employee import Employee
 from department import Department
+from constants import STATUS_ACTIVE, STATUS_INACTIVE, ALLOWED_STATUSES
 
 
 class JHRIS:
     """Main JHRIS application class."""
+    
+    # Table headers as class constants
+    EMPLOYEE_HEADERS = ["ID", "First Name", "Last Name", "Email", "Phone", 
+                        "Department", "Position", "Salary", "Hire Date", "Status"]
+    DEPARTMENT_HEADERS = ["ID", "Name", "Description", "Created At"]
+    DEPT_EMPLOYEE_HEADERS = ["ID", "First Name", "Last Name", "Email", "Position", "Status"]
     
     def __init__(self):
         """Initialize JHRIS application."""
@@ -71,15 +78,29 @@ class JHRIS:
             print("\nAvailable Departments:")
             for dept in departments:
                 print(f"  {dept[0]}. {dept[1]}")
-            dept_id = input("Department ID (or 0 for none): ").strip()
-            dept_id = int(dept_id) if dept_id and dept_id != '0' else None
+            dept_id_input = input("Department ID (or 0 for none): ").strip()
+            
+            if dept_id_input and dept_id_input != '0':
+                try:
+                    dept_id = int(dept_id_input)
+                except ValueError:
+                    print("Error: Invalid department ID. Must be a number.")
+                    return
+            else:
+                dept_id = None
         else:
             print("No departments available. Create a department first.")
             dept_id = None
             
         position = input("Position: ").strip()
-        salary = input("Salary: ").strip()
-        salary = float(salary) if salary else 0.0
+        salary_input = input("Salary: ").strip()
+        
+        try:
+            salary = float(salary_input) if salary_input else 0.0
+        except ValueError:
+            print("Error: Invalid salary. Must be a number.")
+            return
+            
         hire_date = input("Hire Date (YYYY-MM-DD): ").strip()
         
         if first_name and last_name and email and hire_date:
@@ -96,9 +117,7 @@ class JHRIS:
         employees = self.employee_mgr.get_all_employees()
         
         if employees:
-            headers = ["ID", "First Name", "Last Name", "Email", "Phone", 
-                      "Department", "Position", "Salary", "Hire Date", "Status"]
-            print(tabulate(employees, headers=headers, tablefmt="grid"))
+            print(tabulate(employees, headers=self.EMPLOYEE_HEADERS, tablefmt="grid"))
         else:
             print("No employees found.")
             
@@ -110,9 +129,7 @@ class JHRIS:
         if keyword:
             employees = self.employee_mgr.search_employees(keyword)
             if employees:
-                headers = ["ID", "First Name", "Last Name", "Email", "Phone", 
-                          "Department", "Position", "Salary", "Hire Date", "Status"]
-                print(tabulate(employees, headers=headers, tablefmt="grid"))
+                print(tabulate(employees, headers=self.EMPLOYEE_HEADERS, tablefmt="grid"))
             else:
                 print("No employees found matching the search criteria.")
         else:
@@ -121,13 +138,18 @@ class JHRIS:
     def update_employee_interactive(self):
         """Update an employee interactively."""
         print("\n--- Update Employee ---")
-        emp_id = input("Enter Employee ID: ").strip()
+        emp_id_input = input("Enter Employee ID: ").strip()
         
-        if not emp_id:
+        if not emp_id_input:
             print("Employee ID is required.")
             return
+        
+        try:
+            emp_id = int(emp_id_input)
+        except ValueError:
+            print("Error: Invalid Employee ID. Must be a number.")
+            return
             
-        emp_id = int(emp_id)
         employee = self.employee_mgr.get_employee_by_id(emp_id)
         
         if not employee:
@@ -135,9 +157,7 @@ class JHRIS:
             return
             
         print("\nCurrent Employee Details:")
-        headers = ["ID", "First Name", "Last Name", "Email", "Phone", 
-                  "Department", "Position", "Salary", "Hire Date", "Status"]
-        print(tabulate([employee], headers=headers, tablefmt="grid"))
+        print(tabulate([employee], headers=self.EMPLOYEE_HEADERS, tablefmt="grid"))
         
         print("\nEnter new values (press Enter to skip):")
         updates = {}
@@ -162,13 +182,16 @@ class JHRIS:
         if position:
             updates['position'] = position
             
-        salary = input("Salary: ").strip()
-        if salary:
-            updates['salary'] = float(salary)
+        salary_input = input("Salary: ").strip()
+        if salary_input:
+            try:
+                updates['salary'] = float(salary_input)
+            except ValueError:
+                print("Warning: Invalid salary format. Skipping salary update.")
             
-        status = input("Status (active/inactive): ").strip()
-        if status:
-            updates['status'] = status
+        status_input = input(f"Status ({'/'.join(ALLOWED_STATUSES)}): ").strip()
+        if status_input:
+            updates['status'] = status_input
             
         if updates:
             self.employee_mgr.update_employee(emp_id, **updates)
@@ -178,13 +201,18 @@ class JHRIS:
     def remove_employee_interactive(self):
         """Remove an employee interactively."""
         print("\n--- Remove Employee ---")
-        emp_id = input("Enter Employee ID to remove: ").strip()
+        emp_id_input = input("Enter Employee ID to remove: ").strip()
         
-        if not emp_id:
+        if not emp_id_input:
             print("Employee ID is required.")
             return
+        
+        try:
+            emp_id = int(emp_id_input)
+        except ValueError:
+            print("Error: Invalid Employee ID. Must be a number.")
+            return
             
-        emp_id = int(emp_id)
         confirm = input(f"Are you sure you want to remove employee {emp_id}? (yes/no): ").strip().lower()
         
         if confirm == 'yes':
@@ -210,39 +238,47 @@ class JHRIS:
         departments = self.department_mgr.get_all_departments()
         
         if departments:
-            headers = ["ID", "Name", "Description", "Created At"]
-            print(tabulate(departments, headers=headers, tablefmt="grid"))
+            print(tabulate(departments, headers=self.DEPARTMENT_HEADERS, tablefmt="grid"))
         else:
             print("No departments found.")
             
     def view_department_employees_interactive(self):
         """View employees in a department interactively."""
         print("\n--- View Department Employees ---")
-        dept_id = input("Enter Department ID: ").strip()
+        dept_id_input = input("Enter Department ID: ").strip()
         
-        if not dept_id:
+        if not dept_id_input:
             print("Department ID is required.")
             return
+        
+        try:
+            dept_id = int(dept_id_input)
+        except ValueError:
+            print("Error: Invalid Department ID. Must be a number.")
+            return
             
-        dept_id = int(dept_id)
         employees = self.department_mgr.get_department_employees(dept_id)
         
         if employees:
-            headers = ["ID", "First Name", "Last Name", "Email", "Position", "Status"]
-            print(tabulate(employees, headers=headers, tablefmt="grid"))
+            print(tabulate(employees, headers=self.DEPT_EMPLOYEE_HEADERS, tablefmt="grid"))
         else:
             print("No employees found in this department.")
             
     def update_department_interactive(self):
         """Update a department interactively."""
         print("\n--- Update Department ---")
-        dept_id = input("Enter Department ID: ").strip()
+        dept_id_input = input("Enter Department ID: ").strip()
         
-        if not dept_id:
+        if not dept_id_input:
             print("Department ID is required.")
             return
+        
+        try:
+            dept_id = int(dept_id_input)
+        except ValueError:
+            print("Error: Invalid Department ID. Must be a number.")
+            return
             
-        dept_id = int(dept_id)
         department = self.department_mgr.get_department_by_id(dept_id)
         
         if not department:
@@ -250,8 +286,7 @@ class JHRIS:
             return
             
         print("\nCurrent Department Details:")
-        headers = ["ID", "Name", "Description", "Created At"]
-        print(tabulate([department], headers=headers, tablefmt="grid"))
+        print(tabulate([department], headers=self.DEPARTMENT_HEADERS, tablefmt="grid"))
         
         print("\nEnter new values (press Enter to skip):")
         name = input("Name: ").strip()
@@ -270,13 +305,18 @@ class JHRIS:
     def delete_department_interactive(self):
         """Delete a department interactively."""
         print("\n--- Delete Department ---")
-        dept_id = input("Enter Department ID to delete: ").strip()
+        dept_id_input = input("Enter Department ID to delete: ").strip()
         
-        if not dept_id:
+        if not dept_id_input:
             print("Department ID is required.")
             return
+        
+        try:
+            dept_id = int(dept_id_input)
+        except ValueError:
+            print("Error: Invalid Department ID. Must be a number.")
+            return
             
-        dept_id = int(dept_id)
         confirm = input(f"Are you sure you want to delete department {dept_id}? (yes/no): ").strip().lower()
         
         if confirm == 'yes':
@@ -291,7 +331,7 @@ class JHRIS:
         # Total employees
         employees = self.employee_mgr.get_all_employees()
         total_employees = len(employees) if employees else 0
-        active_employees = len([e for e in employees if e[9] == 'active']) if employees else 0
+        active_employees = len([e for e in employees if e[9] == STATUS_ACTIVE]) if employees else 0
         
         # Total departments
         departments = self.department_mgr.get_all_departments()

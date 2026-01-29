@@ -2,6 +2,7 @@
 
 import sqlite3
 from datetime import datetime
+from constants import STATUS_ACTIVE
 
 
 class Database:
@@ -38,7 +39,7 @@ class Database:
         ''')
         
         # Employees table
-        self.cursor.execute('''
+        self.cursor.execute(f'''
             CREATE TABLE IF NOT EXISTS employees (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 first_name TEXT NOT NULL,
@@ -49,7 +50,7 @@ class Database:
                 position TEXT,
                 salary REAL,
                 hire_date TEXT NOT NULL,
-                status TEXT DEFAULT 'active',
+                status TEXT DEFAULT '{STATUS_ACTIVE}',
                 created_at TEXT NOT NULL,
                 FOREIGN KEY (department_id) REFERENCES departments (id)
             )
