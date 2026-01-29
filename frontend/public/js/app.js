@@ -1,5 +1,7 @@
 // API Configuration
-const API_URL = 'http://localhost:3001/api';
+const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3001/api'
+    : `${window.location.origin}/api`;
 let token = localStorage.getItem('token');
 let currentUser = null;
 
@@ -91,10 +93,9 @@ document.getElementById('register-form')?.addEventListener('submit', async (e) =
     const username = document.getElementById('reg-username').value;
     const email = document.getElementById('reg-email').value;
     const password = document.getElementById('reg-password').value;
-    const role = document.getElementById('reg-role').value;
 
     try {
-        await apiRequest('/auth/register', 'POST', { username, email, password, role });
+        await apiRequest('/auth/register', 'POST', { username, email, password });
         showSuccess('register-error', 'Registration successful! Please login.');
         setTimeout(() => {
             showPage('login-page');

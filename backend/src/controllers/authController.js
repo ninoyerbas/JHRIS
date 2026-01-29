@@ -5,14 +5,16 @@ const db = require('../config/database');
 const authController = {
   // Register new user
   register: async (req, res) => {
-    const { username, password, email, role = 'employee' } = req.body;
+    const { username, password, email } = req.body;
+    // Force all registrations to 'employee' role for security
+    const role = 'employee';
 
     if (!username || !password || !email) {
       return res.status(400).json({ error: 'Username, password, and email are required' });
     }
 
     try {
-      const hash = await bcrypt.hash(password, 8);
+      const hash = await bcrypt.hash(password, 10);
       
       const query = 'INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)';
       db.run(query, [username, hash, email, role], function(err) {

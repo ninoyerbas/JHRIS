@@ -114,15 +114,30 @@ const leaveController = {
       // If approved, update leave balance
       if (status === 'approved') {
         db.get('SELECT employee_id, leave_type_id, days FROM leave_requests WHERE id = ?', [req.params.id], (err, request) => {
-          if (!err && request) {
+          if (err || !request) {
+            console.error('Error fetching leave request for balance update:', err);
+            return;
+          }
+          
+          // Verify employee exists before updating balance
+          db.get('SELECT id FROM employees WHERE id = ?', [request.employee_id], (err, employee) => {
+            if (err || !employee) {
+              console.error('Employee not found for leave balance update:', request.employee_id);
+              return;
+            }
+            
             const year = new Date().getFullYear();
             const updateBalanceQuery = `
               UPDATE leave_balances 
               SET used_days = used_days + ?, remaining_days = remaining_days - ?, updated_at = CURRENT_TIMESTAMP
               WHERE employee_id = ? AND leave_type_id = ? AND year = ?
             `;
-            db.run(updateBalanceQuery, [request.days, request.days, request.employee_id, request.leave_type_id, year]);
-          }
+            db.run(updateBalanceQuery, [request.days, request.days, request.employee_id, request.leave_type_id, year], (err) => {
+              if (err) {
+                console.error('Error updating leave balance:', err);
+              }
+            });
+          });
         });
       }
 
