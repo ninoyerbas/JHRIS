@@ -38,3 +38,13 @@ wheels/
 # OS
 .DS_Store
 Thumbs.db
+node_modules/
+data/
+*.db
+.env
+*.log
+.DS_Store
+dist/
+build/
+.vscode/
+.idea/

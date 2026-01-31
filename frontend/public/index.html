@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JHRIS - Human Resources Information System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Login Page -->
+        <div id="login-page" class="page active">
+            <div class="login-container">
+                <h1>JHRIS</h1>
+                <h2>Human Resources Information System</h2>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                <div id="login-error" class="error-message"></div>
+                <p class="register-link">Don't have an account? <a href="#" id="show-register">Register here</a></p>
+            </div>
+        </div>
+
+        <!-- Register Page -->
+        <div id="register-page" class="page">
+            <div class="login-container">
+                <h1>Register</h1>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="reg-username">Username</label>
+                        <input type="text" id="reg-username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">Email</label>
+                        <input type="email" id="reg-email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password">Password</label>
+                        <input type="password" id="reg-password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+                <div id="register-error" class="error-message"></div>
+                <p class="register-link">Already have an account? <a href="#" id="show-login">Login here</a></p>
+            </div>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page">
+            <nav class="navbar">
+                <h1>JHRIS</h1>
+                <div class="nav-links">
+                    <a href="#" data-page="dashboard" class="nav-link active">Dashboard</a>
+                    <a href="#" data-page="employees" class="nav-link">Employees</a>
+                    <a href="#" data-page="attendance" class="nav-link">Attendance</a>
+                    <a href="#" data-page="leave" class="nav-link">Leave</a>
+                </div>
+                <div class="user-info">
+                    <span id="user-name"></span>
+                    <button id="logout-btn" class="btn btn-secondary">Logout</button>
+                </div>
+            </nav>
+
+            <div class="container">
+                <!-- Dashboard Section -->
+                <div id="dashboard-section" class="section active">
+                    <h2>Dashboard</h2>
+                    <div class="dashboard-cards">
+                        <div class="card">
+                            <h3>Total Employees</h3>
+                            <p class="card-value" id="total-employees">0</p>
+                        </div>
+                        <div class="card">
+                            <h3>Present Today</h3>
+                            <p class="card-value" id="present-today">0</p>
+                        </div>
+                        <div class="card">
+                            <h3>Pending Leave Requests</h3>
+                            <p class="card-value" id="pending-leaves">0</p>
+                        </div>
+                        <div class="card">
+                            <h3>Active Departments</h3>
+                            <p class="card-value" id="active-departments">0</p>
+                        </div>
+                    </div>
+                    <div class="quick-actions">
+                        <h3>Quick Actions</h3>
+                        <button class="btn btn-primary" id="clock-in-btn">Clock In</button>
+                        <button class="btn btn-secondary" id="clock-out-btn">Clock Out</button>
+                        <button class="btn btn-primary" id="request-leave-btn">Request Leave</button>
+                    </div>
+                </div>
+
+                <!-- Employees Section -->
+                <div id="employees-section" class="section">
+                    <div class="section-header">
+                        <h2>Employees</h2>
+                        <button class="btn btn-primary" id="add-employee-btn">Add Employee</button>
+                    </div>
+                    <div class="table-container">
+                        <table id="employees-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Position</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Attendance Section -->
+                <div id="attendance-section" class="section">
+                    <div class="section-header">
+                        <h2>Attendance</h2>
+                        <div>
+                            <input type="date" id="attendance-date" />
+                            <button class="btn btn-primary" id="filter-attendance-btn">Filter</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table id="attendance-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Employee</th>
+                                    <th>Department</th>
+                                    <th>Clock In</th>
+                                    <th>Clock Out</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Leave Section -->
+                <div id="leave-section" class="section">
+                    <div class="section-header">
+                        <h2>Leave Requests</h2>
+                        <button class="btn btn-primary" id="new-leave-request-btn">New Request</button>
+                    </div>
+                    <div class="table-container">
+                        <table id="leave-table">
+                            <thead>
+                                <tr>
+                                    <th>Employee</th>
+                                    <th>Leave Type</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Days</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals will be added dynamically -->
+    <div id="modal-container"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
