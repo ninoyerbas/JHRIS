@@ -1,5 +1,9 @@
 # JHRIS - Human Resources Information System
 
+**Author:** Julio Cesar Mendez Tobar  
+**Copyright:** © 2024-2026 Julio Cesar Mendez Tobar. All Rights Reserved.  
+**License:** Proprietary
+
 A comprehensive web-based HRIS (Human Resources Information System) for managing employees, attendance, and leave requests.
 
 ## Quick Start
@@ -39,6 +43,15 @@ See [docs/README.md](docs/README.md) for complete documentation including:
 - **Frontend**: HTML5, CSS3, JavaScript
 - **Authentication**: JWT
 
+## Copyright Notice
+
+This software is the proprietary property of Julio Cesar Mendez Tobar.
+Unauthorized copying, distribution, modification, or use is strictly prohibited.
+
 ## License
 
-ISC
+See [LICENSE](LICENSE) file for details. This is proprietary software.
+
+---
+
+**Built by Julio Cesar Mendez Tobar**

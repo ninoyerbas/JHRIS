@@ -68,7 +68,7 @@ Feature requests are welcome! Please:
 
 ### Setup
 ```bash
-git clone https://github.com/ninoyerbas/JHRIS.git
+git clone https://github.com/Julio-Cesar-Mendez-Tobar/JHRIS.git
 cd JHRIS
 chmod +x start.sh
 ./start.sh
@@ -211,7 +211,7 @@ Before submitting a PR:
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the same license as the project (ISC).
+By contributing, you agree that your contributions will be licensed under the same license as the project (Proprietary License - Copyright © Julio Cesar Mendez Tobar).
 
 ## Recognition
 
