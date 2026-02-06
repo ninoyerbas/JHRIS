@@ -319,6 +319,15 @@ See [docs/README.md](docs/README.md) for complete documentation including:
 - **Frontend**: HTML5, CSS3, JavaScript
 - **Authentication**: JWT
 
+## Copyright Notice
+
+This software is the proprietary property of Julio Cesar Mendez Tobar.
+Unauthorized copying, distribution, modification, or use is strictly prohibited.
+
 ## License
 
-ISC
+See [LICENSE](LICENSE) file for details. This is proprietary software.
+
+---
+
+**Built by Julio Cesar Mendez Tobar**

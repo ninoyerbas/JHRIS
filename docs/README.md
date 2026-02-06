@@ -1,5 +1,8 @@
 # JHRIS - Human Resources Information System
 
+**Author:** Julio Cesar Mendez Tobar  
+**Copyright:** © 2024-2026 Julio Cesar Mendez Tobar. All Rights Reserved.  
+
 A comprehensive web-based HRIS (Human Resources Information System) for managing employees, attendance, and leave requests.
 
 ## Features
@@ -295,14 +298,15 @@ Body: { employee_id, leave_type_id, total_days, year }
 - Mobile application
 - Integration with biometric devices
 
+## Copyright Notice
+
+This software is the proprietary property of Julio Cesar Mendez Tobar.
+Unauthorized copying, distribution, modification, or use is strictly prohibited.
+
 ## License
 
-ISC
+See [LICENSE](../LICENSE) file for details. This is proprietary software.
 
-## Contributing
+---
 
-Feel free to submit issues and enhancement requests!
-
-## Support
-
-For support, please contact the development team or create an issue in the repository.
+**Built by Julio Cesar Mendez Tobar**
