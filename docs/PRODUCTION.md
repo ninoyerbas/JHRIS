@@ -1,5 +1,8 @@
 # Production Deployment Guide
 
+**Author:** Julio Cesar Mendez Tobar  
+**Copyright:** © 2024-2026 Julio Cesar Mendez Tobar. All Rights Reserved.  
+
 This guide covers security hardening and production deployment best practices for JHRIS.
 
 ## Security Hardening
